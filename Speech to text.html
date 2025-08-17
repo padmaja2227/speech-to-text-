@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('https://previews.123rf.com/images/surachaipung/surachaipung2310/surachaipung231000023/238652115-information-data-search-technology-search-optimization-male-hand-using-voice-search-using-the.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Poppins', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+
+        #status {
+            font-size: 18px;
+            color: rgb(250, 235, 235);
+            margin-bottom: 15px;
+            z-index: 1;
+        }
+
+        #output {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1d1b1b;
+            padding: 20px;
+            border: 2px solid #fff;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            height: 100px;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 8px;
+            border: none;
+            transition: 0.3s;
+            z-index: 1;
+        }
+
+        #start-btn {
+            background-color: #1d5a98;
+            color: white;
+        }
+
+        #stop-btn {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        #start-btn:hover, #stop-btn:hover {
+            background-color: #000;
+            transform: scale(1.05);
+        }
+
+        #back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s;
+        }
+
+        #back-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        #back-btn:active {
+            transform: scale(0.95);
+        }
+
+        * {
+            transition: all 0.3s ease;
+        }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<h1>Speech Recognition</h1>
+
+<div id="output">Text will appear here...</div>
+<p id="status">Click the button to start listening...</p>
+
+<button id="start-btn">Start Recording</button>
+<button id="stop-btn" disabled>Stop Recording</button>
+
+<a id="back-btn" href="1stpage.html">Back</a>
+
+<script>
+    const startButton = document.getElementById('start-btn');
+    const stopButton = document.getElementById('stop-btn');
+    const outputDiv = document.getElementById('output');
+    const statusPara = document.getElementById('status');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = new SpeechRecognition();
+    
+    // Get the selected language from localStorage
+    const selectedLanguage = localStorage.getItem('selectedLanguage') || 'en-US';
+    recognition.lang = selectedLanguage;
+
+    recognition.interimResults = true;
+    recognition.continuous = true;
+
+    recognition.onstart = function () {
+        statusPara.textContent = 'Listening...';
+    };
+
+    recognition.onresult = function (event) {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+        }
+        outputDiv.textContent = transcript;
+        downloadButton.disabled = false;
+    };
+
+    recognition.onend = function () {
+        statusPara.textContent = 'Click the button to start listening...';
+        startButton.disabled = false;
+        stopButton.disabled = true;
+    };
+
+    recognition.onerror = function (event) {
+        statusPara.textContent = 'Error occurred: ' + event.error;
+        startButton.disabled = false;
+        stopButton.disabled = true;
+    };
+
+    startButton.addEventListener('click', function () {
+        recognition.start();
+        startButton.disabled = true;
+        stopButton.disabled = false;
+    });
+
+    stopButton.addEventListener('click', function () {
+        recognition.stop();
+    });
+</script>
+
+</body>
+</html>
