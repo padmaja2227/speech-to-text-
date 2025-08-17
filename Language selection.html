@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition for Hearing Impaired</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('https://www.sennheiser.com/cdn-cgi/image/width=1920,format=avif,quality=75/globalassets/digizuite/45735-en-hd_490_pro_product_shot_in_use_axis_audio_69.jpg/SennheiserFullWidth') 
+                        no-repeat center center/cover;
+            font-family: 'Poppins', Arial, sans-serif;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            color: rgb(65, 181, 202);
+            text-align: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        #header {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        label {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+            color: white;
+        }
+
+        #language-select {
+            padding: 12px;
+            font-size: 18px;
+            margin-top: 20px;
+            background-color: #f0f0f0;
+            border-radius: 15px;
+            border: none;
+            text-align: left;
+            width: 60%;
+            max-width: 400px;
+        }
+
+        #next-btn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #next-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        <h1>Speech Recognition System for Hearing Impaired</h1>
+        <label for="language-select">Select Language for Speech-to-Text:</label>
+        <select id="language-select">
+            <option value="en-US">English (US)</option>
+            <option value="ta-IN">Tamil (India)</option>
+            <option value="hi-IN">Hindi (India)</option>
+            <option value="es-ES">Spanish (Spain)</option>
+            <option value="fr-FR">French (France)</option>
+            <option value="de-DE">German (Germany)</option>
+            <option value="it-IT">Italian (Italy)</option>
+            <option value="pt-BR">Portuguese (Brazil)</option>
+            <option value="zh-CN">Chinese (Mandarin)</option>
+            <option value="ja-JP">Japanese (Japan)</option>
+            <option value="ar-SA">Arabic (Saudi Arabia)</option>
+        </select>
+    </div>
+
+    <a id="next-btn" href="main.html">Next</a>
+
+    <script>
+        const nextButton = document.getElementById('next-btn');
+        const languageSelect = document.getElementById('language-select');
+
+        nextButton.addEventListener('click', function () {
+            const selectedLanguage = languageSelect.value;
+            localStorage.setItem('selectedLanguage', selectedLanguage);
+        });
+    </script>
+
+</body>
+</html>
